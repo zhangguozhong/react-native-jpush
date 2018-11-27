@@ -30,6 +30,13 @@ export default class JPushModule {
     static stopPush() {
         TMJPushModule.stopPush();
     }
+    /**
+     * Android 开启推送
+     */
+    static resumePush() {
+        TMJPushModule.resumePush();
+    }
+
     static hasPermission(handler) {
         TMJPushModule.hasPermission(handler);
     }
@@ -39,6 +46,13 @@ export default class JPushModule {
     }
     static setLogOFF() {
         TMJPushModule.setLogOFF();
+    }
+    static pushNotificationSetPage() {
+        TMJPushModule.pushNotificationSetPage();
+    }
+
+    static clearAllNotifications() {
+        TMJPushModule.clearAllNotifications();
     }
 
     static didReceiveMessage(handler) {

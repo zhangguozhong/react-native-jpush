@@ -165,8 +165,15 @@ RCT_EXPORT_METHOD(hasPermission:(RCTResponseSenderBlock)callback) {
         }];
     }
 }
-RCT_EXPORT_METHOD(toNotificationSetPage){
+RCT_EXPORT_METHOD(pushNotificationSetPage){
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+}
+RCT_EXPORT_METHOD(clearAllNotifications) {
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+        [UNUserNotificationCenter.currentNotificationCenter removeAllPendingNotificationRequests];
+    } else {
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    }
 }
 
 + (void)application:(UIApplication *)application didRegisterDeviceToken:(NSData *)deviceToken {
@@ -185,7 +192,7 @@ RCT_EXPORT_METHOD(toNotificationSetPage){
 }
 
 + (void)didReceiveRemoteNotificationWhenFirstLaunchApp:(NSDictionary *)launchOptions {
-    if(launchOptions&&[launchOptions objectForKey:@"aps"]){
+    if(launchOptions && [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), [self sharedMethodQueue], ^{
             //判断当前模块是否正在加载，已经加载成功，则发送事件
             if([TMJPushModule sharedInstance].bridge.isLoading) {
@@ -214,10 +221,10 @@ RCT_EXPORT_METHOD(toNotificationSetPage){
 }
 -(NSInteger)getSequence {
     NSString *dateString = [self.dateFormatter stringFromDate:[NSDate date]];
-    if (dateString) {
-        return [dateString integerValue];
+    if (!dateString || dateString.length == 0) {
+        return 0;
     }
-    return 0;
+    return [dateString integerValue];
 }
 
 @end

@@ -104,6 +104,13 @@ public class TMJPushModule extends ReactContextBaseJavaModule implements Lifecyc
         Logger.toast(mContext, "Stop push success");
     }
 
+    @ReactMethod
+    public void resumePush() {
+        mContext = getCurrentActivity();
+        JPushInterface.resumePush(getReactApplicationContext());
+        Logger.i(TAG, "Resume push");
+        Logger.toast(mContext, "Resume push success");
+    }
 
     @ReactMethod
     public void hasPermission(Callback callback) {
