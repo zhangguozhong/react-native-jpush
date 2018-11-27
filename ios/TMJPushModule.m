@@ -1,4 +1,4 @@
-#import "TMJpushModule.h"
+#import "TMJPushModule.h"
 #import "JPUSHService.h"
 #import "RCTEventDispatcher.h"
 
@@ -6,15 +6,16 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-@interface TMJpushModule ()
+@interface TMJPushModule ()
 @property (nonatomic, copy) NSString *deviceToken;
+@property (nonatomic,strong) NSDateFormatter *dateFormatter;
 @end
 
-static TMJpushModule *_instance = nil;
+static TMJPushModule *_instance = nil;
 static NSString *const DidReceiveMessage = @"DidReceiveMessage";
 static NSString *const DidOpenMessage = @"DidOpenMessage";
 
-@implementation TMJpushModule
+@implementation TMJPushModule
 RCT_EXPORT_MODULE();
 @synthesize bridge = _bridge;
 
@@ -48,7 +49,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (dispatch_queue_t)methodQueue {
-    return [TMJpushModule sharedMethodQueue];
+    return [TMJPushModule sharedMethodQueue];
 }
 
 +(BOOL)requiresMainQueueSetup {
@@ -84,10 +85,10 @@ RCT_EXPORT_METHOD(getDeviceToken:(RCTResponseSenderBlock)callback) {
     callback(@[deviceToken]);
 }
 RCT_EXPORT_METHOD(setAlias:(NSString *)alias {
-    [JPUSHService setAlias:alias completion:nil seq:0];
+    [JPUSHService setAlias:alias completion:nil seq:[self getSequence]];
 })
 RCT_EXPORT_METHOD(deleteAlias:(NSString *)alias {
-    [JPUSHService deleteAlias:nil seq:0];
+    [JPUSHService deleteAlias:nil seq:[self getSequence]];
 })
 RCT_EXPORT_METHOD(setDebugMode) {
     [JPUSHService setDebugMode];
@@ -96,7 +97,9 @@ RCT_EXPORT_METHOD(setLogOFF) {
     [JPUSHService setLogOFF];
 }
 
-+ (void)registerWithlaunchOptions:(NSDictionary *)launchOptions appKey:(NSString *)appKey appChannel:(NSString *)appChannel withAppDelegate:(id)delegate {
+
++ (void)registerWithlaunchOptions:(NSDictionary *)launchOptions appKey:(NSString *)appKey appChannel:(NSString *)appChannel withAppDelegate:(id)delegate
+{
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
         JPUSHRegisterEntity *entity = [[JPUSHRegisterEntity alloc] init];
@@ -131,7 +134,7 @@ RCT_EXPORT_METHOD(setTags:(NSArray *)tags) {
     if (tags) {
         tagSet = [NSSet setWithArray:tags];
     }
-    [JPUSHService setTags:tagSet completion:nil seq:0];
+    [JPUSHService setTags:tagSet completion:nil seq:[self getSequence]];
 }
 RCT_EXPORT_METHOD(hasPermission:(RCTResponseSenderBlock)callback) {
     float systemVersion = [[UIDevice currentDevice].systemVersion floatValue];
@@ -173,10 +176,10 @@ RCT_EXPORT_METHOD(toNotificationSetPage){
 + (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     //send event
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        [[TMJpushModule sharedInstance] didReceiveRemoteNotification:userInfo];
+        [[TMJPushModule sharedInstance] didReceiveRemoteNotification:userInfo];
     }
     else {
-        [[TMJpushModule sharedInstance] didOpenRemoteNotification:userInfo];
+        [[TMJPushModule sharedInstance] didOpenRemoteNotification:userInfo];
     }
     [JPUSHService handleRemoteNotification:userInfo];
 }
@@ -185,12 +188,12 @@ RCT_EXPORT_METHOD(toNotificationSetPage){
     if(launchOptions&&[launchOptions objectForKey:@"aps"]){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), [self sharedMethodQueue], ^{
             //判断当前模块是否正在加载，已经加载成功，则发送事件
-            if([TMJpushModule sharedInstance].bridge.isLoading) {
+            if([TMJPushModule sharedInstance].bridge.isLoading) {
                 [self didReceiveRemoteNotificationWhenFirstLaunchApp:launchOptions];
             }
             else {
                 [JPUSHService handleRemoteNotification:launchOptions];
-                [[TMJpushModule sharedInstance] didOpenRemoteNotification:launchOptions];
+                [[TMJPushModule sharedInstance] didOpenRemoteNotification:launchOptions];
             }
         });
     }
@@ -198,6 +201,23 @@ RCT_EXPORT_METHOD(toNotificationSetPage){
 + (void)setBadgeNumber:(int)badge {
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:badge];
     [JPUSHService setBadge:badge];
+}
+
+
+-(NSDateFormatter *)dateFormatter
+{
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        _dateFormatter.dateFormat = @"MMddHHmmss";
+    }
+    return _dateFormatter;
+}
+-(NSInteger)getSequence {
+    NSString *dateString = [self.dateFormatter stringFromDate:[NSDate date]];
+    if (dateString) {
+        return [dateString integerValue];
+    }
+    return 0;
 }
 
 @end

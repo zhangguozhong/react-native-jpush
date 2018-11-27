@@ -12,8 +12,8 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 26
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 16
@@ -32,5 +32,8 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/jpush-android-3.1.7.jar')
+    compile "me.leolin:ShortcutBadger:1.1.16@aar"
 }
   

@@ -5,7 +5,7 @@
 #import "RCTBridgeModule.h"
 #endif
 
-@interface TMJpushModule : NSObject <RCTBridgeModule>
+@interface TMJPushModule : NSObject <RCTBridgeModule>
 
 + (void)registerWithlaunchOptions:(NSDictionary *)launchOptions appKey:(NSString *)appKey appChannel:(NSString *)appChannel withAppDelegate:(id)delegate;
 + (void)application:(UIApplication *)application didRegisterDeviceToken:(NSData *)deviceToken;

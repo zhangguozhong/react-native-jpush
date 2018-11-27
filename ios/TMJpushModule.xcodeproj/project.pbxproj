@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		7744B6A821AC1A3C00B17F07 /* jpush-ios-3.1.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7744B6A621AC1A3C00B17F07 /* jpush-ios-3.1.1.a */; };
 		7744B6F521AC2B4800B17F07 /* jcore-ios-1.2.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7744B6F421AC2B4800B17F07 /* jcore-ios-1.2.5.a */; };
-		B3E7B58A1CC2AC0600A0062D /* TMJpushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* TMJpushModule.m */; };
+		B3E7B58A1CC2AC0600A0062D /* TMJPushModule.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* TMJPushModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,8 +29,8 @@
 		7744B6A621AC1A3C00B17F07 /* jpush-ios-3.1.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.1.1.a"; sourceTree = "<group>"; };
 		7744B6A721AC1A3C00B17F07 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		7744B6F421AC2B4800B17F07 /* jcore-ios-1.2.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jcore-ios-1.2.5.a"; sourceTree = "<group>"; };
-		B3E7B5881CC2AC0600A0062D /* TMJpushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMJpushModule.h; sourceTree = "<group>"; };
-		B3E7B5891CC2AC0600A0062D /* TMJpushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMJpushModule.m; sourceTree = "<group>"; };
+		B3E7B5881CC2AC0600A0062D /* TMJPushModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMJPushModule.h; sourceTree = "<group>"; };
+		B3E7B5891CC2AC0600A0062D /* TMJPushModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMJPushModule.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +58,8 @@
 			isa = PBXGroup;
 			children = (
 				7744B6A521AC19FD00B17F07 /* JpushModule */,
-				B3E7B5881CC2AC0600A0062D /* TMJpushModule.h */,
-				B3E7B5891CC2AC0600A0062D /* TMJpushModule.m */,
+				B3E7B5881CC2AC0600A0062D /* TMJPushModule.h */,
+				B3E7B5891CC2AC0600A0062D /* TMJPushModule.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,7 +130,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3E7B58A1CC2AC0600A0062D /* TMJpushModule.m in Sources */,
+				B3E7B58A1CC2AC0600A0062D /* TMJPushModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
