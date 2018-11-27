@@ -1,4 +1,3 @@
-
 #import "TMJpushModule.h"
 #import "JPUSHService.h"
 #import "RCTEventDispatcher.h"
@@ -6,7 +5,6 @@
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
 #endif
-
 
 @interface TMJpushModule ()
 @property (nonatomic, copy) NSString *deviceToken;
@@ -57,14 +55,12 @@ RCT_EXPORT_MODULE();
     return YES;
 }
 
-
 - (NSDictionary<NSString *, id> *)constantsToExport {
     return @{
              DidReceiveMessage: DidReceiveMessage,
-             DidOpenMessage: DidOpenMessage,
+             DidOpenMessage: DidOpenMessage
              };
 }
-
 - (void)didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self.bridge.eventDispatcher sendAppEventWithName:DidReceiveMessage body:userInfo];
 }
@@ -100,7 +96,7 @@ RCT_EXPORT_METHOD(setLogOFF) {
     [JPUSHService setLogOFF];
 }
 
-+ (void)registerWithlaunchOptions:(NSDictionary *)launchOptions appKey:(NSString *)appKey withAppDelegate:(id)delegate {
++ (void)registerWithlaunchOptions:(NSDictionary *)launchOptions appKey:(NSString *)appKey appChannel:(NSString *)appChannel withAppDelegate:(id)delegate {
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
         JPUSHRegisterEntity *entity = [[JPUSHRegisterEntity alloc] init];
@@ -120,13 +116,12 @@ RCT_EXPORT_METHOD(setLogOFF) {
     
 #ifdef DEBUG
     [JPUSHService setDebugMode];
-    [JPUSHService setupWithOption:launchOptions appKey:appKey channel:@"dev" apsForProduction:NO];
+    [JPUSHService setupWithOption:launchOptions appKey:appKey channel:appChannel apsForProduction:NO];
 #else
     [JPUSHService setLogOFF];
-    [JPUSHService setupWithOption:launchOptions appKey:appKey channel:@"appstore" apsForProduction:YES];
+    [JPUSHService setupWithOption:launchOptions appKey:appKey channel:appChannel apsForProduction:YES];
 #endif
 }
-
 
 /*
  * 设置 tags 的方法
