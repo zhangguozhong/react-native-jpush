@@ -1,48 +1,48 @@
 import {
-    NativeModules, NativeEventEmitter,
+    NativeModules, DeviceEventEmitter,
     NativeAppEventEmitter,
     Platform, AppState
 } from 'react-native';
-const { TMJpushModule } = NativeModules;
+const { TMJPushModule } = NativeModules;
 
 export default class JPushModule {
     static initPush() {
         if (Platform.OS === 'android') {
-            JPushModule.initPush();
+            TMJPushModule.initPush();
         }
     }
     static setAlias(alias:String) {
-        JPushModule.setAlias(alias);
+        TMJPushModule.setAlias(alias);
     }
     static setTags(tags) {
-        JPushModule.setTags(tags);
+        TMJPushModule.setTags(tags);
     }
     static getRegistrationID(handler) {
-        JPushModule.getRegistrationID(handler);
+        TMJPushModule.getRegistrationID(handler);
     }
 
     static getDeviceToken(handler) {
-        JPushModule.getDeviceToken(handler);
+        TMJPushModule.getDeviceToken(handler);
     }
     /**
      * Android 关闭推送
      */
     static stopPush() {
-        JPushModule.stopPush();
+        TMJPushModule.stopPush();
     }
     static hasPermission(handler) {
-        JPushModule.hasPermission(handler);
+        TMJPushModule.hasPermission(handler);
     }
 
     static setDebugMode() {
-        JPushModule.setDebugMode();
+        TMJPushModule.setDebugMode();
     }
     static setLogOFF() {
-        JPushModule.setLogOFF();
+        TMJPushModule.setLogOFF();
     }
 
     static didReceiveMessage(handler) {
-        this.addEventListener(JPushModule.DidReceiveMessage, message => {
+        this.addEventListener(TMJPushModule.DidReceiveMessage, message => {
             //处于后台时，拦截收到的消息
             if(AppState.currentState === 'background') {
                 return;
@@ -52,7 +52,7 @@ export default class JPushModule {
     }
     static didReceiveNotification(handler) {
         if(Platform.OS === 'android') {
-            this.addEventListener(JPushModule.DidReceiveNotification, message => {
+            this.addEventListener(TMJPushModule.DidReceiveNotification, message => {
                 //处于后台时，拦截收到的通知
                 if(AppState.currentState === 'background') {
                     return;
@@ -63,7 +63,7 @@ export default class JPushModule {
     }
 
     static didOpenMessage(handler) {
-        this.addEventListener(JPushModule.DidOpenMessage, handler);
+        this.addEventListener(TMJPushModule.DidOpenMessage, handler);
     }
 
     static addEventListener(eventName, handler) {
@@ -88,7 +88,7 @@ export default class JPushModule {
         }
     }
     static removeAllListeners() {
-        this.removeListener(JPushModule.DidOpenMessage);
-        this.removeListener(JPushModule.DidReceiveMessage);
+        this.removeListener(TMJPushModule.DidOpenMessage);
+        this.removeListener(TMJPushModule.DidReceiveMessage);
     }
 }
