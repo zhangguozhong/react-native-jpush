@@ -31,9 +31,9 @@ repositories {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/jpush-android-3.1.7.jar')
-    compile "me.leolin:ShortcutBadger:1.1.16@aar"
+    implementation 'com.facebook.react:react-native:+'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/jpush-android-3.1.7.jar')
+    implementation "me.leolin:ShortcutBadger:1.1.16@aar"
 }
   
