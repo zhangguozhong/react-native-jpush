@@ -9,7 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -38,7 +38,7 @@ import java.util.concurrent.CountDownLatch;
 import cn.jpush.android.api.JPushInterface;
 
 
-public class TMJPushModule extends ReactContextBaseJavaModule {
+public class TMJPushModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
     private final ReactApplicationContext reactContext;
     private static String TAG = "TMJPushModule";
@@ -56,6 +56,7 @@ public class TMJPushModule extends ReactContextBaseJavaModule {
     public TMJPushModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
@@ -228,6 +229,22 @@ public class TMJPushModule extends ReactContextBaseJavaModule {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onHostResume() {
+        Logger.d(TAG, "onHostResume");
+    }
+
+    @Override
+    public void onHostPause() {
+        Logger.d(TAG, "onHostPause");
+    }
+
+    @Override
+    public void onHostDestroy() {
+        Logger.d(TAG, "onHostDestroy");
+        mRAC = null;
     }
 
     /**
